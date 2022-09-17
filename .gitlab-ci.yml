@@ -1,0 +1,8 @@
+deploy-package:
+  stage: deploy
+  script:
+    - javac ServerResourcePackExtractor.java
+    - jar cvf ServerResourcePackExtractor.jar *
+  paths:
+    - ServerResourcePackExtractor.jar
+  expire_in: never
