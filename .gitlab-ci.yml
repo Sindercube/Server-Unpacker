@@ -16,6 +16,7 @@ deploy:
   stage: deploy
   script:
     - jar cvf ServerResourcePackExtractor.jar *
-  paths:
-    - ServerResourcePackExtractor.jar
-  expire_in: never
+  artifacts:
+    paths:
+      - ServerResourcePackExtractor.jar
+    expire_in: never
