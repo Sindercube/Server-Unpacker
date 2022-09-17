@@ -1,7 +1,20 @@
-deploy-package:
+image: java:latest
+
+stages:
+  - build
+  - execute
+
+build:
+  stage: build
+  script: 
+    - javac ServerResourcePackExtractor.java
+  artifacts:
+    paths:
+     - ServerResourcePackExtractor.class
+
+deploy:
   stage: deploy
   script:
-    - javac ServerResourcePackExtractor.java
     - jar cvf ServerResourcePackExtractor.jar *
   paths:
     - ServerResourcePackExtractor.jar
