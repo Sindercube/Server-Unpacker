@@ -7,7 +7,7 @@ stages:
 build:
   stage: build
   script: 
-    - javac src/* -d build/
+    - javac src/* -d .
   artifacts:
     paths:
      - Main.class
