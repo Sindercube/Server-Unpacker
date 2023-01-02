@@ -7,16 +7,16 @@ stages:
 build:
   stage: build
   script: 
-    - javac ServerResourcePackExtractor.java
+    - javac src/* -d build/
   artifacts:
     paths:
-     - ServerResourcePackExtractor.class
+     - Main.class
 
 deploy:
   stage: deploy
   script:
-    - jar cvf ServerResourcePackExtractor.jar *
+    - jar cvfe SRPE.jar Main *.class
   artifacts:
     paths:
-      - ServerResourcePackExtractor.jar
+      - SRPE.jar
     expire_in: never
