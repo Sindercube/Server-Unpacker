@@ -4,15 +4,21 @@ import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.function.LongConsumer;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 public class PackExtractor {
     public void extractPack(File pack) throws IOException {
+        extractPack(pack, (l) -> {}, () -> {});
+    }
+    public void extractPack(File pack, LongConsumer itemCountConsumer, Runnable onItemFinished) throws IOException {
         String destDirectory = pack.getParent() + "/" + pack.getName() +"-extracted";
 
         ZipFile zipFile = new ZipFile(pack.toString());
+        itemCountConsumer.accept(zipFile.size());
+
         Stream<? extends ZipEntry> zipStream = zipFile.stream().parallel();
 
         zipStream.forEach(zipEntry -> {
@@ -31,6 +37,7 @@ public class PackExtractor {
                         outputStream.write(buffer, 0, read);
                     }
                     inputStream.close();
+                    onItemFinished.run();
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
