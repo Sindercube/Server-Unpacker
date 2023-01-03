@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import java.awt.dnd.DnDConstants;
 import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDropEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
@@ -28,7 +30,16 @@ public class Presenter {
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
                     try {
                         for (File file : fileChooser.getSelectedFiles()) {
-                            packExtractor.extractPack(file);
+                            PackExtractorWorker worker = new PackExtractorWorker(packExtractor, file);
+                            worker.addPropertyChangeListener(new PropertyChangeListener() {
+                                @Override
+                                public void propertyChange(PropertyChangeEvent evt) {
+                                    if ("progress".equals(evt.getPropertyName())) {
+                                        gui.setProgress((Integer) evt.getNewValue());
+                                    }
+                                }
+                            });
+                            worker.execute();
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -44,7 +55,16 @@ public class Presenter {
                             evt.getTransferable().getTransferData(DataFlavor.javaFileListFlavor);
                     evt.dropComplete(true);
                     for (File file : droppedFiles) {
-                        packExtractor.extractPack(file);
+                        PackExtractorWorker worker = new PackExtractorWorker(packExtractor, file);
+                        worker.addPropertyChangeListener(new PropertyChangeListener() {
+                            @Override
+                            public void propertyChange(PropertyChangeEvent evt) {
+                                if ("progress".equals(evt.getPropertyName())) {
+                                    gui.setProgress((Integer) evt.getNewValue());
+                                }
+                            }
+                        });
+                        worker.execute();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
