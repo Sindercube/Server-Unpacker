@@ -9,6 +9,7 @@ import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDropEvent;
 import java.io.File;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class Presenter {
     private PackExtractor packExtractor;
@@ -50,5 +51,31 @@ public class Presenter {
                 }
             }
         });
+    }
+
+    private class PackExtractorWorker extends SwingWorker<Object, Object> {
+        PackExtractor packExtractor;
+        File file;
+
+        PackExtractorWorker(PackExtractor packExtractor, File file) {
+            this.packExtractor = packExtractor;
+            this.file = file;
+        }
+
+        @Override
+        protected Object doInBackground() throws Exception {
+            AtomicLong totalItemCount = new AtomicLong();
+            AtomicLong currentItemCount = new AtomicLong(0);
+            packExtractor.extractPack(
+                file,
+                totalItemCount::set,
+                () -> {
+                    final long currentCount = currentItemCount.incrementAndGet();
+                    final float percentComplete = (float)currentCount / totalItemCount.get();
+                    setProgress((int)(percentComplete * 100));
+                }
+            );
+            return null;
+        }
     }
 }
