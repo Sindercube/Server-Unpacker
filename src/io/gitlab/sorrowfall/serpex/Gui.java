@@ -8,7 +8,6 @@ public class Gui {
     private JFrame frame;
     private JProgressBar progressBar;
     private JButton pickButton;
-    private int completedItems = 0;
 
     public Gui() {
         frame = new JFrame("Server Resource Pack Extractor");
@@ -25,13 +24,8 @@ public class Gui {
         pickButton.setDropTarget(dropTarget);
     }
 
-    public void setItemCount(int itemCount)
-    {
-        progressBar.setMaximum(itemCount);
-    }
-    public synchronized void completeItem() {
-        ++completedItems;
-        progressBar.setValue(completedItems);
+    public void setProgress(int progress) {
+        progressBar.setValue(progress);
     }
 
     private JPanel createMainPanel() {
@@ -42,6 +36,7 @@ public class Gui {
         panel.add(pickButton);
 
         progressBar = new JProgressBar();
+        progressBar.setMaximum(100);
         progressBar.setValue(0);
         progressBar.setStringPainted(true);
         panel.add(progressBar);

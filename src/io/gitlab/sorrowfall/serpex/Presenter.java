@@ -20,9 +20,6 @@ public class Presenter {
     }
 
     void start() {
-        int itemCount = 1; // TODO: get from packExtractor
-        gui.setItemCount(itemCount);
-
         gui.addPickButtonActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent ae) {
                 JFileChooser fileChooser = new JFileChooser();
