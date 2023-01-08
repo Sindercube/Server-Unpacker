@@ -1,4 +1,4 @@
-package io.gitlab.sorrowfall.serpex;
+package org.sindercube.serpex;
 
 import java.awt.EventQueue;
 import java.io.File;

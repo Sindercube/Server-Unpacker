@@ -1,4 +1,4 @@
-package io.gitlab.sorrowfall.serpex;
+package org.sindercube.serpex;
 
 import javax.swing.*;
 import java.awt.datatransfer.DataFlavor;
