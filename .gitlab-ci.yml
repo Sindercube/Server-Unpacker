@@ -7,15 +7,15 @@ stages:
 build:
   stage: build
   script: 
-    - javac src/org/sindercube/serpex/*.java
+    - javac src/org/sindercube/serpex/*.java -d bin
   artifacts:
     paths:
-     - src/org/sindercube/serpex/*.class
+     - bin
 
 deploy:
   stage: deploy
   script:
-    - jar cvfe serpex.jar org.sindercube.serpex.Application src/org/sindercube/serpex/*.class
+    - jar -cef org.sindercube.serpex.Application serpex.jar -C bin .
   artifacts:
     paths:
       - serpex.jar
