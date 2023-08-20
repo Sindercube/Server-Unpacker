@@ -1,4 +1,4 @@
-package org.sindercube.serpex;
+package com.sindercube.serverUnpacker;
 
 import javax.swing.*;
 import java.awt.dnd.DropTarget;

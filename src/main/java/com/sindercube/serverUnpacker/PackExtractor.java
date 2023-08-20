@@ -1,4 +1,4 @@
-package org.sindercube.serpex;
+package com.sindercube.serverUnpacker;
 
 import java.io.BufferedInputStream;
 import java.io.File;
@@ -10,11 +10,19 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 public class PackExtractor {
-    public void extractPack(File pack) throws IOException {
-        extractPack(pack, (l) -> {}, () -> {});
+    public static void extractPack(File pack) throws IOException {
+        extractPack(pack, pack.getName());
     }
-    public void extractPack(File pack, LongConsumer itemCountConsumer, Runnable onItemFinished) throws IOException {
-        String destDirectory = pack.getParent() + "/" + pack.getName() +"-extracted";
+    public static void extractPack(File pack, String name) throws IOException {
+        extractPack(pack, name, (l) -> {}, () -> {});
+    }
+    public static void extractPack(File pack, LongConsumer itemCountConsumer, Runnable onItemFinished) throws IOException {
+        extractPack(pack, pack.getName(), itemCountConsumer, onItemFinished);
+    }
+    public static void extractPack(File pack, String name, LongConsumer itemCountConsumer, Runnable onItemFinished) throws IOException {
+        String originDirectory = "";
+        if (pack.getParent() != null) originDirectory += pack.getParent() + "/";
+        String destDirectory = originDirectory + name + "-unpacked";
 
         ZipFile zipFile = new ZipFile(pack.toString());
         itemCountConsumer.accept(zipFile.size());
@@ -23,7 +31,6 @@ public class PackExtractor {
 
         zipStream.forEach(zipEntry -> {
             File newFile = new File(destDirectory, zipEntry.getName());
-            // create sub directories
             newFile.getParentFile().mkdirs();
 
             if (!zipEntry.isDirectory()) {

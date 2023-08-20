@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.sindercube.serverUnpacker.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "injectors": { "defaultRequire": 1 },
+  "mixins": [
+    "InitMixin",
+    "ClientBuiltinResourcePackProviderMixin"
+  ]
+}
