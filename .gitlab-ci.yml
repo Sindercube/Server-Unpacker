@@ -7,16 +7,17 @@ stages:
 build:
   stage: build
   script: 
-    - javac src/* -d .
+    - mkdir bin
+    - javac src/org/sindercube/serpex/*.java -d bin
   artifacts:
     paths:
-     - Main.class
+     - bin
 
 deploy:
   stage: deploy
   script:
-    - jar cvfe SRPE.jar Main *.class
+    - jar -cef org.sindercube.serpex.Application serpex.jar -C bin .
   artifacts:
     paths:
-      - SRPE.jar
+      - serpex.jar
     expire_in: never
