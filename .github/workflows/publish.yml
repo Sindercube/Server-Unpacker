@@ -20,7 +20,7 @@ jobs:
               uses: actions/setup-java@v3
               with:
                   distribution: "temurin"
-                  java-version: 17
+                  java-version: 21
                   cache: "gradle"
             - name: Change Version
               run: sed -i 's/mod_version=.*/mod_version=${{ github.event.release.tag_name }}/g' gradle.properties
@@ -38,7 +38,7 @@ jobs:
                   github-tag: "${{ github.event.release.tag_name }}"
                   github-token: "${{ secrets.GITHUB_TOKEN }}"
 
-                  name: "Iconic v${{ github.event.release.tag_name }}"
+                  name: "Server Unpacker v${{ github.event.release.tag_name }}"
                   version: "${{ github.event.release.tag_name }}"
                   version-type: "${{ github.event.release.prerelease && 'beta' || 'release' }}"
                   changelog: "${{ github.event.release.body }}"

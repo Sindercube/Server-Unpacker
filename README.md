@@ -1,5 +1,6 @@
-![Github](https://img.shields.io/badge/github-434956?style=for-the-badge&logo=github&logoColor=8994ce)
-![Modrinth](https://img.shields.io/badge/modrinth-434956?style=for-the-badge&logo=modrinth&logoColor=8994ce)
+[![Github](https://img.shields.io/badge/github-434956?style=for-the-badge&logo=github&logoColor=8994ce)](https://github.com/Sindercube/Server-Unpacker)
+[![Modrinth](https://img.shields.io/badge/modrinth-434956?style=for-the-badge&logo=modrinth&logoColor=8994ce)](https://modrinth.com/mod/Server-Unpacker)
+[![Curseforge](https://img.shields.io/badge/curseforge-434956?style=for-the-badge&logo=curseforge&logoColor=8994ce)](https://www.curseforge.com/minecraft/mc-mods/Server-Unpacker)
 ![Game Versions](https://img.shields.io/modrinth/game-versions/B3fgRqfr?style=for-the-badge&labelColor=434956&color=8994ce)
 
 # About
