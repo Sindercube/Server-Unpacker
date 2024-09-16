@@ -1,18 +1,25 @@
 {
-  "schemaVersion": 1,
-  "id": "server-unpacker",
-  "name": "Server Unpacker",
-  "version": "${version}",
-  "description": "Automatically extract those pesky Server Resource Packs",
-  "authors": [ "Sindercube" ],
-  "contact": {
-    "sources": "https://github.com/Sindercube/Server-Unpacker",
-    "homepage": "https://modrinth.com/mod/Server-Unpacker"
-  },
-  "mixins": [ "srpe.mixins.json" ],
-  "license": "LGPL-3.0-or-later",
-  "environment": "client",
-  "depends": {
-    "minecraft": ">=1.16.5"
-  }
+	"schemaVersion": 1,
+	"id": "server_unpacker",
+	"name": "Server Unpacker",
+
+	"version": "${mod_version}",
+	"description": "Extract those pesky Server Resource Packs",
+	"authors": [ "Sindercube" ],
+	"contact": {
+		"sources": "https://github.com/Sindercube/Server-Unpacker",
+		"homepage": "https://modrinth.com/mod/Server-Unpacker"
+	},
+	"license": "LGPL-3.0-only",
+	"entrypoints": {
+		"client": [ "com.sindercube.serverUnpacker.ServerUnpacker" ]
+	},
+	"icon": "assets/server_unpacker/icon.png",
+
+	"environment": "client",
+	"mixins": [ "server_unpacker.mixins.json" ],
+	"depends": {
+		"java": ">=16",
+		"minecraft": ">=1.17"
+	}
 }

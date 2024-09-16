@@ -1,4 +1,6 @@
-package com.sindercube.serverUnpacker;
+package com.sindercube.serverUnpacker.gui;
+
+import com.sindercube.serverUnpacker.util.PackExtractor;
 
 import javax.swing.*;
 import java.awt.datatransfer.DataFlavor;
@@ -7,18 +9,24 @@ import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.event.ActionEvent;
 import java.io.File;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
+import java.util.logging.Level;
 
 public class Presenter {
-    private final Gui gui;
-    public Presenter(Gui gui) {
-        this.gui = gui;
+
+    private final MainGui screen;
+
+    public Presenter(MainGui screen) {
+        this.screen = screen;
     }
+
     void start() {
-        gui.addPickButtonActionListener(this::actionPerformed);
-        gui.setPickButtonDropTarget(new PresenterDropTarget());
+        screen.addUploadButtonActionListener(this::actionPerformed);
+        screen.setUploadButtonDropTarget(new PresenterDropTarget());
     }
+
     public void actionPerformed(ActionEvent ae) {
         JFileChooser fileChooser = new JFileChooser();
         int returnValue = fileChooser.showOpenDialog(null);
@@ -28,18 +36,20 @@ public class Presenter {
                     PackExtractorWorker worker = new PackExtractorWorker(file);
                     worker.addPropertyChangeListener(evt -> {
                         if ("progress".equals(evt.getPropertyName())) {
-                            gui.setProgress((Integer) evt.getNewValue());
+                            screen.setProgress((Integer) evt.getNewValue());
                         }
                     });
                     worker.execute();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (Exception exception) {
+				ServerUnpackerGui.LOGGER.log(Level.WARNING, "an exception was thrown", exception);
             }
         }
     }
+
     public class PresenterDropTarget extends DropTarget {
 
+		@SuppressWarnings("unchecked")
         public void drop(DropTargetDropEvent evt) {
             try {
                 evt.acceptDrop(DnDConstants.ACTION_COPY);
@@ -49,29 +59,34 @@ public class Presenter {
                     PackExtractorWorker worker = new PackExtractorWorker(file);
                     worker.addPropertyChangeListener(evt1 -> {
                         if ("progress".equals(evt1.getPropertyName())) {
-                            gui.setProgress((Integer) evt1.getNewValue());
+                            screen.setProgress((Integer) evt1.getNewValue());
                         }
                     });
                     worker.execute();
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (Exception exception) {
+				ServerUnpackerGui.LOGGER.log(Level.WARNING, "an exception was thrown", exception);
             }
         }
 
     }
 
-    private class PackExtractorWorker extends SwingWorker<Object, Object> {
-        File file;
+    private static class PackExtractorWorker extends SwingWorker<Object, Object> {
+
+        private final File file;
+
         PackExtractorWorker(File file) {
             this.file = file;
         }
+
         @Override
         protected Object doInBackground() throws Exception {
             AtomicLong totalItemCount = new AtomicLong();
             AtomicLong currentItemCount = new AtomicLong(0);
             PackExtractor.extractPack(
+				Path.of("."),
                 file,
+				file.getName().replaceFirst("[.][^.]+$", ""),
                 totalItemCount::set,
                 () -> {
                     final long currentCount = currentItemCount.incrementAndGet();
@@ -81,5 +96,7 @@ public class Presenter {
             );
             return null;
         }
+
     }
+
 }

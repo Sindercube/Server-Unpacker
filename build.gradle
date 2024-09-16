@@ -1,28 +1,35 @@
 plugins {
-    id 'fabric-loom' version '0.12-SNAPSHOT'
+	id 'fabric-loom' version '1.7-SNAPSHOT'
 }
+
+tasks.withType(JavaCompile).configureEach {
+	options.release = 16
+}
+
+java {
+	sourceCompatibility = JavaVersion.VERSION_16
+	targetCompatibility = JavaVersion.VERSION_16
+}
+
+base.archivesName = mod_id
+group = maven_group
+version = mod_version
 
 dependencies {
-    minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
-}
-
-processResources {
-    inputs.property "version", project.version
-    filesMatching("fabric.mod.json") {
-        expand "version": project.version
-    }
+	minecraft "com.mojang:minecraft:$minecraft_version"
+	mappings "net.fabricmc:yarn:$yarn_mappings:v2"
+	modImplementation "net.fabricmc:fabric-loader:$loader_version"
 }
 
 jar {
-    manifest {
-        attributes 'Main-Class': "com.sindercube.serverUnpacker.ServerUnpackerTool"
-    }
+	manifest {
+		attributes 'Main-Class': "com.sindercube.serverUnpacker.gui.ServerUnpackerGui"
+	}
 }
 
-sourceCompatibility = JavaVersion.VERSION_1_8
-targetCompatibility = JavaVersion.VERSION_1_8
+processResources {
+	filesMatching("fabric.mod.json") {
+		expand project.properties
+	}
+}
 
-archivesBaseName = project.archives_base_name
-version = project.mod_version

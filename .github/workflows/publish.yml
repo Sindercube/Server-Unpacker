@@ -1,0 +1,48 @@
+on:
+    release:
+        types: [published]
+
+concurrency:
+    group: "build"
+    cancel-in-progress: true
+
+env:
+    MODRINTH_ID: "B3fgRqfr"
+    CURSEFORGE_ID: "1104191"
+
+jobs:
+    publish:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout Repo
+              uses: actions/checkout@v3
+            - name: Setup JDK
+              uses: actions/setup-java@v3
+              with:
+                  distribution: "temurin"
+                  java-version: 17
+                  cache: "gradle"
+            - name: Change Version
+              run: sed -i 's/mod_version=.*/mod_version=${{ github.event.release.tag_name }}/g' gradle.properties
+            - name: Build
+              run: ./gradlew clean build
+            - name: Publish
+              uses: Kir-Antipov/mc-publish@v3.3
+              with:
+                  curseforge-id: "${{ env.CURSEFORGE_ID }}"
+                  curseforge-token: "${{ secrets.CURSEFORGE_TOKEN }}"
+                  curseforge-version-type: "${{ steps.get-release.outputs.release-type }}"
+                  modrinth-id: "${{ env.MODRINTH_ID }}"
+                  modrinth-token: "${{ secrets.MODRINTH_TOKEN }}"
+                  modrinth-version-type: "${{ steps.get-release.outputs.release-type }}"
+                  github-tag: "${{ github.event.release.tag_name }}"
+                  github-token: "${{ secrets.GITHUB_TOKEN }}"
+
+                  name: "Iconic v${{ github.event.release.tag_name }}"
+                  version: "${{ github.event.release.tag_name }}"
+                  version-type: "${{ github.event.release.prerelease && 'beta' || 'release' }}"
+                  changelog: "${{ github.event.release.body }}"
+                  java: |
+                      17
+                  game-versions: |
+                      >=1.17

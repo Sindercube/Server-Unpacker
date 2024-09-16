@@ -1,42 +1,34 @@
-package com.sindercube.serverUnpacker;
+package com.sindercube.serverUnpacker.util;
 
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.function.LongConsumer;
 import java.util.stream.Stream;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
 public class PackExtractor {
-    public static void extractPack(File pack) throws IOException {
-        extractPack(pack, pack.getName());
-    }
-    public static void extractPack(File pack, String name) throws IOException {
-        extractPack(pack, name, (l) -> {}, () -> {});
-    }
-    public static void extractPack(File pack, LongConsumer itemCountConsumer, Runnable onItemFinished) throws IOException {
-        extractPack(pack, pack.getName(), itemCountConsumer, onItemFinished);
-    }
-    public static void extractPack(File pack, String name, LongConsumer itemCountConsumer, Runnable onItemFinished) throws IOException {
-        String originDirectory = "";
-        if (pack.getParent() != null) originDirectory += pack.getParent() + "/";
-        String destDirectory = originDirectory + name + "-unpacked";
 
+    public static void extractPack(Path destination, File pack, String name) throws IOException {
+        extractPack(destination, pack, name, c -> {}, () -> {});
+    }
+
+    public static void extractPack(Path destination, File pack, String name, LongConsumer itemCountConsumer, Runnable onItemFinished) throws IOException {
         ZipFile zipFile = new ZipFile(pack.toString());
         itemCountConsumer.accept(zipFile.size());
 
         Stream<? extends ZipEntry> zipStream = zipFile.stream().parallel();
 
         zipStream.forEach(zipEntry -> {
-            File newFile = new File(destDirectory, zipEntry.getName());
+			File newFile = new File(destination.resolve(name).toFile(), zipEntry.getName());
             newFile.getParentFile().mkdirs();
 
             if (!zipEntry.isDirectory()) {
                 try (FileOutputStream outputStream = new FileOutputStream(newFile)) {
                     BufferedInputStream inputStream = new BufferedInputStream(zipFile.getInputStream(zipEntry));
-                    String filepath = newFile.toString();
 
                     byte[] buffer = new byte[4096];
                     int read;
@@ -51,4 +43,5 @@ public class PackExtractor {
             }
         });
     }
+
 }
