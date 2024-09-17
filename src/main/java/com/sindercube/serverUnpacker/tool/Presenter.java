@@ -1,4 +1,4 @@
-package com.sindercube.serverUnpacker.gui;
+package com.sindercube.serverUnpacker.tool;
 
 import com.sindercube.serverUnpacker.util.PackExtractor;
 
@@ -9,7 +9,6 @@ import java.awt.dnd.DropTarget;
 import java.awt.dnd.DropTargetDropEvent;
 import java.awt.event.ActionEvent;
 import java.io.File;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Level;
@@ -42,7 +41,7 @@ public class Presenter {
                     worker.execute();
                 }
             } catch (Exception exception) {
-				ServerUnpackerGui.LOGGER.log(Level.WARNING, "an exception was thrown", exception);
+				ServerUnpackerTool.LOGGER.log(Level.WARNING, "an exception was thrown", exception);
             }
         }
     }
@@ -65,7 +64,7 @@ public class Presenter {
                     worker.execute();
                 }
             } catch (Exception exception) {
-				ServerUnpackerGui.LOGGER.log(Level.WARNING, "an exception was thrown", exception);
+				ServerUnpackerTool.LOGGER.log(Level.WARNING, "an exception was thrown", exception);
             }
         }
 
@@ -84,7 +83,7 @@ public class Presenter {
             AtomicLong totalItemCount = new AtomicLong();
             AtomicLong currentItemCount = new AtomicLong(0);
             PackExtractor.extractPack(
-				Path.of("."),
+				file.getParentFile().toPath(),
                 file,
 				file.getName().replaceFirst("[.][^.]+$", ""),
                 totalItemCount::set,

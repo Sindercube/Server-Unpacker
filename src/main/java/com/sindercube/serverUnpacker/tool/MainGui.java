@@ -1,8 +1,7 @@
-package com.sindercube.serverUnpacker.gui;
+package com.sindercube.serverUnpacker.tool;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.awt.*;
 import java.awt.dnd.DropTarget;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;

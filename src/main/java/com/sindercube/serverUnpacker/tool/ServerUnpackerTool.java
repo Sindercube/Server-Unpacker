@@ -1,6 +1,5 @@
-package com.sindercube.serverUnpacker.gui;
+package com.sindercube.serverUnpacker.tool;
 
-import com.google.common.io.Files;
 import com.sindercube.serverUnpacker.util.PackExtractor;
 
 import java.awt.*;
@@ -9,18 +8,18 @@ import java.nio.file.Path;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class ServerUnpackerGui implements Runnable {
+public class ServerUnpackerTool implements Runnable {
 
 	public static final Logger LOGGER = Logger.getLogger("Server Unpacker");
 
     public static void main(String[] args) {
 		LOGGER.info("Started!");
-        if (args.length < 1) EventQueue.invokeLater(new ServerUnpackerGui());
+        if (args.length < 1) EventQueue.invokeLater(new ServerUnpackerTool());
         for (String filePath : args) {
             try {
 				File file = new File(filePath);
 				String name = file.getName().replaceFirst("[.][^.]+$", "");
-                PackExtractor.extractPack(Path.of("."), file, name);
+                PackExtractor.extractPack(file.getParentFile().toPath(), file, name);
             } catch (Exception exception) {
 				LOGGER.log(Level.WARNING, "an exception was thrown", exception);
             }
