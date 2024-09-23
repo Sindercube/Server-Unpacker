@@ -12,10 +12,10 @@ import java.io.File;
 import java.util.concurrent.CompletableFuture;
 
 @Pseudo
-@Mixin(targets = "net.minecraft.class_1066", remap = false)
+@Mixin(targets = "net.minecraft.class_1066")
 public class ClassicExtractingMixin {
 
-    @Inject(at = @At("TAIL"), method = "method_4638", remap = false, require = 0)
+	@Inject(at = @At("TAIL"), method = "method_4638", remap = false)
     public void loadServerPack(File file, ResourcePackSource source, CallbackInfoReturnable<CompletableFuture<Void>> cir) {
 		ServerUnpacker.extractServerPack(file);
     }

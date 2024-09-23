@@ -38,17 +38,18 @@ public class MixinPlugin implements IMixinConfigPlugin {
 	@Override
 	public List<String> getMixins() {
 		List<String> result = new ArrayList<>();
+
 		int majorVersion;
 		int minorVersion;
 		try {
-			majorVersion = Integer.parseInt(GAME_VERSION.split("\\.")[1]);
-			minorVersion = Integer.parseInt(GAME_VERSION.split("\\.")[2]);
+			String[] versions = GAME_VERSION.split("\\.");
+			majorVersion = Integer.parseInt(versions[1]);
+			minorVersion = Integer.parseInt(versions[2]);
 		} catch (ArrayIndexOutOfBoundsException exception) {
 			majorVersion = 0;
 			minorVersion = 0;
 		}
-		boolean isModern = majorVersion > 21 || (majorVersion == 20 && minorVersion >= 5);
-		System.out.println(isModern);
+		boolean isModern = majorVersion >= 21 || (majorVersion == 20 && minorVersion >= 5);
 
 		if (isModern) result.add("ModernExtractingMixin");
 		else result.add("ClassicExtractingMixin");
