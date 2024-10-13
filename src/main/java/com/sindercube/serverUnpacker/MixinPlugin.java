@@ -49,7 +49,7 @@ public class MixinPlugin implements IMixinConfigPlugin {
 			majorVersion = 0;
 			minorVersion = 0;
 		}
-		boolean isModern = majorVersion >= 21 || (majorVersion == 20 && minorVersion >= 5);
+		boolean isModern = majorVersion >= 21 || (majorVersion == 20 && minorVersion >= 3);
 
 		if (isModern) result.add("ModernExtractingMixin");
 		else result.add("ClassicExtractingMixin");
