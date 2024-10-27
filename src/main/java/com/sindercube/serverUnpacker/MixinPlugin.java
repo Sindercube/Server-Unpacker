@@ -41,12 +41,15 @@ public class MixinPlugin implements IMixinConfigPlugin {
 
 		int majorVersion;
 		int minorVersion;
+		String[] versions = GAME_VERSION.split("\\.");
 		try {
-			String[] versions = GAME_VERSION.split("\\.");
 			majorVersion = Integer.parseInt(versions[1]);
-			minorVersion = Integer.parseInt(versions[2]);
 		} catch (ArrayIndexOutOfBoundsException exception) {
 			majorVersion = 0;
+		}
+		try {
+			minorVersion = Integer.parseInt(versions[2]);
+		} catch (ArrayIndexOutOfBoundsException exception) {
 			minorVersion = 0;
 		}
 		boolean isModern = majorVersion >= 21 || (majorVersion == 20 && minorVersion >= 3);
