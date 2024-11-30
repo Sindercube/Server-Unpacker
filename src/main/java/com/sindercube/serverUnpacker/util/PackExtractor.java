@@ -10,7 +10,7 @@ public class PackExtractor {
 
 	public static final PackExtractor INSTANCE = new PackExtractor();
 
-	public void extractPack(Path destination, File pack, String name) throws IOException {
+	public void extractPack(Path destination, File pack, String name) {
         extractPack(destination, pack, name, c -> {}, () -> {});
     }
 
@@ -23,7 +23,7 @@ public class PackExtractor {
 				File newFile = new File(destination.resolve(name).toFile(), entry.getName());
 				if (entry.isDirectory()) return;
 
-				newFile.getParentFile().mkdirs();
+				boolean ignored = newFile.getParentFile().mkdirs();
 				BufferedInputStream inputStream = new BufferedInputStream(zip.getInputStream(entry));
 				this.writeFile(inputStream, newFile);
 				inputStream.close();

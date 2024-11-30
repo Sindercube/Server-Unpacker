@@ -79,7 +79,7 @@ public class Presenter {
         }
 
         @Override
-        protected Object doInBackground() throws Exception {
+        protected Object doInBackground() {
             AtomicLong totalItemCount = new AtomicLong();
             AtomicLong currentItemCount = new AtomicLong(0);
 			PackExtractor.INSTANCE.extractPack(

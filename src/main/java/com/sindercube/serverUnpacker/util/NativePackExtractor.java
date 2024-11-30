@@ -3,12 +3,6 @@ package com.sindercube.serverUnpacker.util;
 import net.minecraft.client.texture.NativeImage;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.function.LongConsumer;
-import java.util.stream.Stream;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 
 public class NativePackExtractor extends PackExtractor {
 

@@ -1,7 +1,6 @@
 package com.sindercube.serverUnpacker;
 
 import com.sindercube.serverUnpacker.util.NativePackExtractor;
-import com.sindercube.serverUnpacker.util.PackExtractor;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
