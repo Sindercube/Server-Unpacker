@@ -82,7 +82,7 @@ public class Presenter {
         protected Object doInBackground() throws Exception {
             AtomicLong totalItemCount = new AtomicLong();
             AtomicLong currentItemCount = new AtomicLong(0);
-            PackExtractor.extractPack(
+			PackExtractor.INSTANCE.extractPack(
 				file.getParentFile().toPath(),
                 file,
 				file.getName().replaceFirst("[.][^.]+$", ""),

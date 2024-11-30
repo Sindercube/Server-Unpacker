@@ -1,5 +1,6 @@
 package com.sindercube.serverUnpacker;
 
+import com.sindercube.serverUnpacker.util.NativePackExtractor;
 import com.sindercube.serverUnpacker.util.PackExtractor;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.loader.api.FabricLoader;
@@ -27,7 +28,7 @@ public class ServerUnpacker implements ClientModInitializer {
 		String name = info == null ? file.getName() : info.address;
 		Path destination = FabricLoader.getInstance().getGameDir().resolve("extracted-packs/");
 		try {
-			PackExtractor.extractPack(destination, file, name);
+			NativePackExtractor.INSTANCE.extractPack(destination, file, name);
 		} catch (Exception exception) {
 			LOGGER.error(exception);
 		}

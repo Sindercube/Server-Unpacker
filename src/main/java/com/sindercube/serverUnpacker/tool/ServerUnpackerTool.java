@@ -4,7 +4,6 @@ import com.sindercube.serverUnpacker.util.PackExtractor;
 
 import java.awt.*;
 import java.io.File;
-import java.nio.file.Path;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,7 +18,7 @@ public class ServerUnpackerTool implements Runnable {
             try {
 				File file = new File(filePath);
 				String name = file.getName().replaceFirst("[.][^.]+$", "");
-                PackExtractor.extractPack(file.getParentFile().toPath(), file, name);
+				PackExtractor.INSTANCE.extractPack(file.getParentFile().toPath(), file, name);
             } catch (Exception exception) {
 				LOGGER.log(Level.WARNING, "an exception was thrown", exception);
             }
